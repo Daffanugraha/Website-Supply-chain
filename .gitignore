@@ -1,0 +1,19 @@
+# Mengabaikan Database dan Cache
+embedding/chroma_db/
+embedding/bge_m3/
+embedding/labse/
+__pycache__/
+
+# Mengabaikan Kredensial
+.env
+client_secret.json
+token.pickle
+# Mengabaikan semua file zip agar tidak ikut ter-push
+*.zip
+*.zip
+embedding/chroma_db/
+.env
+*.pdf
+*.csv
+dataset/
+data/
