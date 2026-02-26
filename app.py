@@ -9,7 +9,7 @@ import shutil
 # FUNGSI PENJEMPUT DATABASE DARI GOOGLE DRIVE
 # ==========================================
 def siapkan_database():
-    folder_db = 'embedding/chroma_db'
+    folder_db = 'embedding/embedding/chroma_db'
     file_zip = 'embedding.zip'
     
     # ID dari link Google Drive kamu
