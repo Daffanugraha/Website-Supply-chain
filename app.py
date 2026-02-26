@@ -10,7 +10,7 @@ import shutil
 # ==========================================
 def siapkan_database():
     folder_db = 'embedding/chroma_db'
-    file_zip = 'chroma_db.zip'
+    file_zip = 'embedding.zip'
     
     # ID dari link Google Drive kamu
     file_id = '1lb7iOt_z56NXAJ54xgy_PG_VHD2zNgGF'
