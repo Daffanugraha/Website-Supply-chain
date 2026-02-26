@@ -1,5 +1,3 @@
-# Website-Supply-chain
-
 ---
 title: RAG Supply Chain
 emoji: 🏢
@@ -8,3 +6,5 @@ colorTo: green
 sdk: docker
 pinned: false
 ---
+
+Aplikasi sistem RAG untuk jurnal akademik rantai pasok.
