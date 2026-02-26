@@ -9,3 +9,5 @@ python-dotenv
 pandas
 gdown
 gunicorn
+fastapi
+uvicorn[standard]
