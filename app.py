@@ -75,23 +75,14 @@ siapkan_database()
 # ==========================================
 app = Flask(__name__)
 
-# Variabel global untuk instance RAG
-rag_engine = None
-
-@app.before_request
-def initialize_system():
-    """Inisialisasi sistem RAG hanya sekali saat request pertama masuk"""
-    global rag_engine
-    if rag_engine is None:
-        # Buat folder gambar jika belum ada
-        if not os.path.exists('static/temp_images'):
-            os.makedirs('static/temp_images')
-        
-        try:
-            rag_engine = RAGSystem()
-            print("✅ RAG Engine initialized successfully.")
-        except Exception as e:
-            print(f"❌ Failed to initialize RAG Engine: {e}")
+# Inisialisasi RAG Engine saat aplikasi start (Global Scope)
+print("⏳ Initializing RAG Engine. Please wait...")
+try:
+    rag_engine = RAGSystem()
+    print("✅ RAG Engine initialized successfully.")
+except Exception as e:
+    rag_engine = None
+    print(f"❌ Failed to initialize RAG Engine: {e}")
 
 @app.route('/')
 def index():
@@ -101,7 +92,9 @@ def index():
 def chat():
     global rag_engine
     if not rag_engine:
-        return jsonify({"error": "System initializing, please try again in a moment."}), 503
+        # Jika gagal saat startup, pesan ini akan muncul, 
+        # dan kamu harus cek "Logs" di Hugging Face Spaces.
+        return jsonify({"error": "System initialization failed. Check server logs."}), 503
 
     data = request.json
     query = data.get('query')
@@ -118,5 +111,5 @@ def chat():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    # Debug=False sangat disarankan untuk produksi/deployment
+    # Debug=False sangat disarankan untuk produksi/deployment di Hugging Face
     app.run(debug=False, port=5000)
