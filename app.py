@@ -82,7 +82,10 @@ try:
     print("✅ RAG Engine initialized successfully.")
 except Exception as e:
     rag_engine = None
-    print(f"❌ Failed to initialize RAG Engine: {e}")
+    print(f"❌ Failed to initialize RAG Engine: {type(e).__name__}: {e}")
+    import traceback
+    traceback.print_exc()  # ← Tambahkan ini!
+
 
 @app.route('/')
 def index():
