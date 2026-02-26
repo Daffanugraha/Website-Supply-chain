@@ -7,3 +7,5 @@ umap-learn
 scikit-learn
 python-dotenv
 pandas
+gdown
+gunicorn
