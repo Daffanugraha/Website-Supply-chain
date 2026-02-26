@@ -3,7 +3,8 @@ from rag_core import RAGSystem
 import os
 import zipfile
 import gdown
-
+import glob
+import shutil
 # ==========================================
 # FUNGSI PENJEMPUT DATABASE DARI GOOGLE DRIVE
 # ==========================================
@@ -11,36 +12,62 @@ def siapkan_database():
     folder_db = 'embedding/chroma_db'
     file_zip = 'chroma_db.zip'
     
-    # ⚠️ GANTI ID INI DENGAN ID FILE .ZIP DI GOOGLE DRIVE KAMU
-    # Menggunakan ID dari link Google Drive kamu
+    # ID dari link Google Drive kamu
     file_id = '1lb7iOt_z56NXAJ54xgy_PG_VHD2zNgGF'
     url = f'https://drive.google.com/uc?id={file_id}'
     
-    # Mengecek apakah database sudah ada (agar tidak download berulang kali)
-    if not os.path.exists(folder_db):
+    # Mengecek apakah database sudah benar-benar ada dan lengkap
+    if not os.path.exists(folder_db) or not os.path.exists(os.path.join(folder_db, 'chroma.sqlite3')):
         print("⏳ Database ChromaDB belum ditemukan. Mengunduh dari Google Drive...")
         
-        # Buat folder embedding jika belum ada
         os.makedirs('embedding', exist_ok=True)
+        temp_dir = 'embedding/temp_extract'
         
         try:
-            # Download file zip dari Drive
+            # Download file zip
             gdown.download(url, file_zip, quiet=False)
             
             print("📦 Mengekstrak database...")
             with zipfile.ZipFile(file_zip, 'r') as zip_ref:
-                # Ekstrak ke dalam folder embedding
-                zip_ref.extractall('embedding/')
+                # Ekstrak ke folder sementara (agar tidak berantakan)
+                zip_ref.extractall(temp_dir)
                 
-            # Hapus file zip setelah diekstrak agar server tidak penuh
-            os.remove(file_zip)
-            print("✅ Database berhasil disiapkan!")
+            print("🔍 Mencari lokasi file chroma.sqlite3...")
+            # Radar otomatis pencari file database
+            db_files = glob.glob(f'{temp_dir}/**/chroma.sqlite3', recursive=True)
+            
+            if db_files:
+                # Ambil folder tempat file sqlite3 itu berada
+                actual_db_dir = os.path.dirname(db_files[0])
+                
+                # Buat folder target jika belum ada
+                os.makedirs(folder_db, exist_ok=True)
+                
+                # Pindahkan semua isinya ke embedding/chroma_db
+                for filename in os.listdir(actual_db_dir):
+                    source = os.path.join(actual_db_dir, filename)
+                    destination = os.path.join(folder_db, filename)
+                    # Timpa jika ada file lama
+                    if os.path.exists(destination):
+                        if os.path.isdir(destination): shutil.rmtree(destination)
+                        else: os.remove(destination)
+                    shutil.move(source, destination)
+                
+                print("✅ Database berhasil diposisikan ke jalur yang benar!")
+            else:
+                print("❌ ERROR: File chroma.sqlite3 tidak ditemukan di dalam file ZIP!")
+
+            # Bersihkan file sisa zip dan folder sementara
+            shutil.rmtree(temp_dir, ignore_errors=True)
+            if os.path.exists(file_zip):
+                os.remove(file_zip)
+                
         except Exception as e:
             print(f"❌ Gagal mengunduh/mengekstrak database: {e}")
     else:
-        print("✅ Database ChromaDB sudah tersedia.")
+        print("✅ Database ChromaDB sudah tersedia dan siap.")
 
-# Panggil fungsi ini tepat saat aplikasi pertama kali dijalankan (sebelum Flask jalan)
+# Jalankan fungsi
 siapkan_database()
 
 # ==========================================
