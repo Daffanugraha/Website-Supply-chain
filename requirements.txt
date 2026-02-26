@@ -11,4 +11,3 @@ gdown
 gunicorn
 fastapi
 uvicorn[standard]
-shutil
