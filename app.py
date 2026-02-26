@@ -1,7 +1,51 @@
 from flask import Flask, render_template, request, jsonify
 from rag_core import RAGSystem
 import os
+import zipfile
+import gdown
 
+# ==========================================
+# FUNGSI PENJEMPUT DATABASE DARI GOOGLE DRIVE
+# ==========================================
+def siapkan_database():
+    folder_db = 'embedding/chroma_db'
+    file_zip = 'chroma_db.zip'
+    
+    # ⚠️ GANTI ID INI DENGAN ID FILE .ZIP DI GOOGLE DRIVE KAMU
+    # Menggunakan ID dari link Google Drive kamu
+    file_id = '1lb7iOt_z56NXAJ54xgy_PG_VHD2zNgGF'
+    url = f'https://drive.google.com/uc?id={file_id}'
+    
+    # Mengecek apakah database sudah ada (agar tidak download berulang kali)
+    if not os.path.exists(folder_db):
+        print("⏳ Database ChromaDB belum ditemukan. Mengunduh dari Google Drive...")
+        
+        # Buat folder embedding jika belum ada
+        os.makedirs('embedding', exist_ok=True)
+        
+        try:
+            # Download file zip dari Drive
+            gdown.download(url, file_zip, quiet=False)
+            
+            print("📦 Mengekstrak database...")
+            with zipfile.ZipFile(file_zip, 'r') as zip_ref:
+                # Ekstrak ke dalam folder embedding
+                zip_ref.extractall('embedding/')
+                
+            # Hapus file zip setelah diekstrak agar server tidak penuh
+            os.remove(file_zip)
+            print("✅ Database berhasil disiapkan!")
+        except Exception as e:
+            print(f"❌ Gagal mengunduh/mengekstrak database: {e}")
+    else:
+        print("✅ Database ChromaDB sudah tersedia.")
+
+# Panggil fungsi ini tepat saat aplikasi pertama kali dijalankan (sebelum Flask jalan)
+siapkan_database()
+
+# ==========================================
+# APLIKASI FLASK
+# ==========================================
 app = Flask(__name__)
 
 # Variabel global untuk instance RAG
@@ -47,5 +91,5 @@ def chat():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    # Debug=True agar auto-reload saat koding
+    # Debug=False sangat disarankan untuk produksi/deployment
     app.run(debug=False, port=5000)
