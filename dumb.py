@@ -1,4 +1,3 @@
-import os
-for root, dirs, files in os.walk("embedding"):
-    for f in files:
-        print(os.path.join(root, f))
+import chromadb
+client = chromadb.PersistentClient(path=r"embedding\chroma_db\bge_m3\db_64")
+print(client.list_collections())
