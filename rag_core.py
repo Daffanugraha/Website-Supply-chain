@@ -15,7 +15,7 @@ warnings.filterwarnings('ignore')
 load_dotenv()
 
 # --- KONFIGURASI ---
-PERSIST_DIRECTORY = r"embedding\chroma_db\bge_m3\db_64" 
+PERSIST_DIRECTORY = "embedding/chroma_db/bge_m3/db_64"
 COLLECTION_NAME = "jurnal_supply_chain"
 EMBEDDING_MODEL_NAME = "BAAI/bge-m3"
 LLM_MODEL_NAME = "llama-3.1-8b-instant" 
