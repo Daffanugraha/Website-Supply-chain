@@ -40,14 +40,14 @@
             <div>
                 <h2 class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-4 px-2 text-slate-400">Analysis Modules</h2>
                 <div class="space-y-1">
-                    <button onclick="handleQuickAnalysis('Trend Analysis AI')" class="w-full text-left p-3 text-sm text-slate-300 hover:bg-slate-800 hover:text-blue-400 rounded-xl transition-all flex items-center gap-3 group border border-transparent hover:border-slate-700">
+                    <button onclick="handleQuickAnalysis('Trend Analysis')" class="w-full text-left p-3 text-sm text-slate-300 hover:bg-slate-800 hover:text-blue-400 rounded-xl transition-all flex items-center gap-3 group border border-transparent hover:border-slate-700">
                         <i data-lucide="trending-up" class="w-4 h-4 text-slate-500 group-hover:text-blue-400"></i>
-                        <span class="flex-1 leading-tight">Trend Analysis AI</span>
+                        <span class="flex-1 leading-tight">Trend Analysis</span>
                         <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
                     </button>
-                    <button onclick="handleQuickAnalysis('Research Gap Detection')" class="w-full text-left p-3 text-sm text-slate-300 hover:bg-slate-800 hover:text-blue-400 rounded-xl transition-all flex items-center gap-3 group border border-transparent hover:border-slate-700">
+                    <button onclick="handleQuickAnalysis('Gap Detection')" class="w-full text-left p-3 text-sm text-slate-300 hover:bg-slate-800 hover:text-blue-400 rounded-xl transition-all flex items-center gap-3 group border border-transparent hover:border-slate-700">
                         <i data-lucide="microscope" class="w-4 h-4 text-slate-500 group-hover:text-blue-400"></i>
-                        <span class="flex-1 leading-tight">Research Gap Detection</span>
+                        <span class="flex-1 leading-tight">Gap Detection</span>
                         <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
                     </button>
                     <button onclick="handleQuickAnalysis('Comparative Synthesis')" class="w-full text-left p-3 text-sm text-slate-300 hover:bg-slate-800 hover:text-blue-400 rounded-xl transition-all flex items-center gap-3 group border border-transparent hover:border-slate-700">
@@ -55,6 +55,11 @@
                         <span class="flex-1 leading-tight">Comparative Synthesis</span>
                         <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
                     </button>
+                    <button onclick="handleQuickAnalysis('Evidence-based QA')" class="w-full text-left p-3 text-sm text-slate-300 hover:bg-slate-800 hover:text-blue-400 rounded-xl transition-all flex items-center gap-3 group border border-transparent hover:border-slate-700">
+                    <i data-lucide="check-circle" class="w-4 h-4 text-slate-500 group-hover:text-blue-400"></i>
+                    <span class="flex-1 leading-tight">Evidence-based QA</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4 opacity-0 group-hover:opacity-100"></i>
+                </button>
                 </div>
             </div>
 
@@ -63,7 +68,7 @@
                 <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50">
                     <div class="flex justify-between text-xs mb-2 font-medium">
                         <span class="text-slate-400">Total Papers</span>
-                        <span class="text-blue-400 font-bold">12,450</span>
+                        <span id="total-papers-count" class="text-blue-400 font-bold">...</span>
                     </div>
                     <div class="w-full bg-slate-700 h-1.5 rounded-full overflow-hidden">
                         <div class="bg-blue-500 h-full w-[85%]"></div>

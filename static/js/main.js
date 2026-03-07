@@ -8,10 +8,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const sourceContent = document.getElementById('source-content');
     const chatContainer = document.getElementById('chat-container');
 
+    // --- TAMBAHAN KODE MULAI DARI SINI ---
+    
+    // Fungsi untuk mengambil jumlah paper dari backend
+    async function fetchCorpusStats() {
+        try {
+            // Memanggil endpoint API dari Flask
+            const response = await fetch('/api/stats'); 
+            if (!response.ok) throw new Error('Network response was not ok');
+            
+            const data = await response.json();
+            const countElement = document.getElementById('total-papers-count');
+            
+            if (countElement && data.total_papers !== undefined) {
+                // Mengubah format angka menjadi ada komanya (contoh: 12450 -> 12,450)
+                countElement.textContent = data.total_papers.toLocaleString('en-US');
+            }
+        } catch (error) {
+            console.error("Gagal mengambil statistik corpus:", error);
+            // Fallback angka jika error
+            const countElement = document.getElementById('total-papers-count');
+            if(countElement) countElement.textContent = "Error";
+        }
+    }
+
+    // Jalankan fungsi saat halaman web pertama kali dimuat
+    fetchCorpusStats();
+
+
     // Fungsi Render Pesan ke Chat Bubble
-// Fungsi Render Pesan ke Chat Bubble
-    // PERBAIKAN: Tambahkan parameter 'metrics = null' di akhir
     window.appendMessage = function(role, content, sources = [], imageUrl = null, metrics = null) {
+        // ... (KODE ANDA TETAP SAMA SEPERTI SEBELUMNYA) ...
         const messageDiv = document.createElement('div');
         messageDiv.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'} animate-in fade-in slide-in-from-bottom-2 duration-300`;
         

@@ -15,11 +15,11 @@ warnings.filterwarnings('ignore')
 load_dotenv()
 
 # --- KONFIGURASI ---
-PERSIST_DIRECTORY = "embedding/embedding/chroma_db/bge_m3/db_64"
+PERSIST_DIRECTORY = r"embedding\chroma_db\bge_m3\db_64" 
 COLLECTION_NAME = "jurnal_supply_chain"
 EMBEDDING_MODEL_NAME = "BAAI/bge-m3"
 LLM_MODEL_NAME = "llama-3.1-8b-instant" 
-TOP_K = 3
+TOP_K = 5
 SIMILARITY_THRESHOLD = 0.30
 
 # --- SYSTEM PROMPT (MERGED: Logic + HTML UI) ---
