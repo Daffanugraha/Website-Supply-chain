@@ -14,4 +14,3 @@ token.pickle
 embedding/chroma_db/
 .env
 *.pdf
-data/
