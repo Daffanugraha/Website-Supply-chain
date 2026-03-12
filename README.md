@@ -3,7 +3,7 @@
 
 > **Setio Basuki, Amelia Khoidir, Daffa Nugraha**
 > Universitas Muhammadiyah Malang, Malang, Indonesia
-> `{setio_basuki, khoidir, ilham, daffa}@umm.ac.id`
+> `{setio_basuki, khoidir, daffa}@umm.ac.id`
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.12.4-blue?logo=python" />
@@ -90,64 +90,71 @@ This system integrates **retrieval-based document grounding** with **LLM generat
 ```
 Website-Supply-chain/
 │
-├── app.py                          # Flask web server — main entry point
-├── rag_core.py                     # Core RAG pipeline (embed → retrieve → generate)
-├── dumb.py                         # Python utility / testing script
-├── dumb.js                         # JavaScript utility / testing script
+├── __pycache__/
+│   └── rag_core.cpython-312.pyc
 │
-├── chunking/                       # Chunking pipeline & output
-│   ├── chunking.ipynb              # Notebook: text chunking logic (32 & 64 tokens)
-│   ├── data_preprocessed_chunk_32.json   # Chunked corpus — chunk size 32
-│   ├── data_preprocessed_chunk_64.json   # Chunked corpus — chunk size 64
-│   └── metadata_jurnal.json        # Paper metadata (title, authors, year, journal)
+├── Chunking/
+│   ├── Code/
+│   │   └── chunking.ipynb              # Notebook: text chunking logic (32 & 64 tokens)
+│   └── Dataset/
+│       ├── corpus_chunks_32.json.json  # Chunked corpus — chunk size 32
+│       ├── corpus_chunks_64.json.json  # Chunked corpus — chunk size 64
+│       └── corpus_metadata.json.json   # Paper metadata (title, authors, year, journal)
 │
-├── Dataset/                        # Raw and cleaned dataset files
-│   ├── Scopus dataset supply chain 2015 - 2025.xlsx   # Raw Scopus export (main input)
-│   ├── Dataset scopus supply chain.csv                # CSV version of raw data
-│   ├── cleaned_scopus_data.xlsx    # Cleaned dataset output
-│   ├── cleaning dataset.ipynb      # Notebook v1: data cleaning pipeline
-│   ├── cleaning dataset v2.ipynb   # Notebook v2: improved cleaning pipeline
-│   └── Distribusi dataset.png      # Chart: paper distribution by year
+├── Cleaning data/
+│   └── Code/
+│       ├── data_cleaning.ipynb         # Notebook v1: data cleaning pipeline
+│       └── Data_Preprocessing.ipynb    # Notebook v2: improved cleaning pipeline
 │
-├── embedding/                      # Vector database builder
-│   ├── embedding.ipynb             # Single notebook: builds ALL 4 ChromaDB databases
-│   └── chroma_db/                  # ChromaDB vector databases (not tracked in Git)
+├── Dataset/
+│   ├── Data/
+│   │   ├── scopus_data_2015_2025.xlsx  # Raw Scopus export
+│   │   └── supply_chain_scopus.csv     # CSV version of raw data
+│   └── visualization/
+│       └── Distribusi dataset.png      # Chart: paper distribution by year
+│
+├── embedding/
+│   └── chroma_db/                      # ChromaDB vector databases (not tracked in Git)
 │       ├── bge_m3/
-│       │   ├── db_32/              # BGE-M3 + chunk size 32
-│       │   │   ├── <uuid-hash>/
+│       │   ├── db_32/                  # BGE-M3 + chunk size 32
+│       │   │   ├── e8443586-8cfb-4cee-8112-36aff5923bb7/
 │       │   │   └── chroma.sqlite3
-│       │   └── db_64/              # BGE-M3 + chunk size 64
-│       │       ├── <uuid-hash>/
+│       │   └── db_64/                  # BGE-M3 + chunk size 64
+│       │       ├── 5f2c9fce-ef9f-489e-90f6-f06f231c37a9/
+│       │       ├── 7de80f10-cf79-4b42-ab79-7f8f58d0a51a/
+│       │       ├── f8bdae20-dd42-4bfb-adda-756acaaeb381/
 │       │       └── chroma.sqlite3
 │       └── labse/
-│           ├── db_32/              # LaBSE + chunk size 32
+│           ├── db_32/                  # LaBSE + chunk size 32
 │           │   ├── <uuid-hash>/
 │           │   └── chroma.sqlite3
-│           └── db_64/              # LaBSE + chunk size 64
-│               ├── <uuid-hash>/
+│           └── db_64/                  # LaBSE + chunk size 64
+│               ├── fdb24250-ae2b-4676-826b-5a3521ee89db/
 │               └── chroma.sqlite3
 │
-├── error analysis/                 # Per-error-type RAGAS audit files
-│   ├── MASTER_DATA_RAG_MERGED.xlsx       # Full merged evaluation dataset
-│   ├── Hasil_Audit_RAG_Final_FIXED.xlsx  # Final audited results with error labels
-│   ├── Context Noise.xlsx          # Filtered: Context Noise cases
-│   ├── Correct Answer.xlsx         # Filtered: Completely Correct cases
-│   ├── Hallucination.xlsx          # Filtered: Hallucination cases
-│   ├── Incomplete Answer.xlsx      # Filtered: Incomplete Answer cases
-│   ├── Retrieval Failure.xlsx      # Filtered: Retrieval Failure cases
-│   └── Semantic Drift.xlsx         # Filtered: Semantic Drift cases
+├── Result/                             # Evaluation results output
 │
 ├── static/
-│   └── js/                         # Frontend JS (AJAX, Chart.js rendering)
+│   ├── js/
+│   │   └── main.js                     # Frontend JS (AJAX, Chart.js rendering)
+│   └── temp_images/                    # Temporary chart image storage
 │
 ├── templates/
-│   └── index.html                  # Main Jinja2 HTML template
+│   └── index.html                      # Main Jinja2 HTML template
 │
-├── Dockerfile                      # Docker container definition
-├── Procfile                        # Heroku/Railway deployment config
-├── requirements.txt                # Python dependencies
+├── .env
 ├── .gitignore
-└── README.md
+├── app.py                              # Flask web server — main entry point
+├── Dockerfile                          # Docker container definition
+├── dumb.js                             # JavaScript utility / testing script
+├── dumb.py                             # Python utility / testing script
+├── Embedding Access.txt                # Download link for pre-built vector databases
+├── embedding.zip                       # Compressed vector database archive
+├── Procfile                            # Heroku/Railway deployment config
+├── rag_core.py                         # Core RAG pipeline (embed → retrieve → generate)
+├── README.md
+├── requirements.txt                    # Python dependencies
+└── token.pickle
 ```
 
 ---
@@ -170,18 +177,11 @@ TITLE-ABS-KEY(
 
 | Attribute | Value |
 |---|---|
-| **Raw file** | `Dataset/Scopus dataset supply chain 2015 - 2025.xlsx` |
 | **Total papers** | 18,235 |
 | **Publication period** | 2015 – 2025 |
 | **Journal papers** | 4,394 |
 | **Conference papers** | 1,892 |
 | **Fields captured** | Title, Authors, Year, Journal/Conference, Scopus Link, Abstract |
-
-### Dataset Distribution by Year
-
-![Dataset Distribution by Year](https://raw.githubusercontent.com/Daffanugraha/Website-Supply-chain/main/Dataset/Distribusi%20dataset.png)
-
-> A clear upward trend is visible from 2019 onwards, with a significant acceleration post-2021 — reflecting the surge in AI adoption for supply chain applications, largely driven by global disruptions during the COVID-19 pandemic.
 
 ### Raw Data Schema
 
@@ -194,62 +194,23 @@ TITLE-ABS-KEY(
 | `Link` | string | Direct Scopus URL |
 | `Abstract` | string | Full abstract text |
 
-### Data Cleaning Pipeline
-
-Two cleaning notebooks are provided in `Dataset/`:
-
-| Notebook | Description |
-|---|---|
-| `cleaning dataset.ipynb` | Initial cleaning: removes duplicates, empty abstracts, malformed entries |
-| `cleaning dataset v2.ipynb` | Improved pipeline: additional normalization, encoding fixes, final export to `cleaned_scopus_data.xlsx` |
-
----
-
-## ✂️ Chunking Pipeline
-
-The `chunking/` folder contains the chunking logic that prepares text for embedding:
-
-| Stage | Operation | Details |
-|---|---|---|
-| **Text Cleaning** | Remove HTML tags, punctuation, special characters | Standardizes raw abstract text |
-| **Case Folding** | Convert all text to lowercase | Ensures uniform embedding representation |
-| **Chunking** | Segment into overlapping token windows | Two sizes: **32 tokens** and **64 tokens**, with **10% overlap** |
-
-**Output files:**
-
-| File | Description |
-|---|---|
-| `data_preprocessed_chunk_32.json` | Full corpus chunked at 32 tokens |
-| `data_preprocessed_chunk_64.json` | Full corpus chunked at 64 tokens |
-| `metadata_jurnal.json` | Metadata per paper (title, authors, year, journal) for citation attachment |
-
-**Chunking rationale:**
-- **Chunk 32** → finer granularity, higher precision for narrow factual queries
-- **Chunk 64** → richer context per chunk, better for complex synthesis and trend queries
-
-**Preprocessing example:**
-
-| Stage | Text |
-|---|---|
-| **Original** | *"High-Entropy Alloys (HEAs), such as Al10.3Co17... pose sustainability & supply-chain risks."* |
-| **After Cleaning** | *"High Entropy Alloys HEAs such as Al Co Cr Fe Ni... pose sustainability and supply chain risks"* |
-| **After Case Folding** | *"high entropy alloys heas such as al co cr fe ni... pose sustainability and supply chain risks"* |
-| **Chunk 1 (32 tok)** | *"high entropy alloys heas such as al co cr fe ni have demonstrated superior performance compared to conventional materials"* |
-| **Chunk 2 (32 tok)** | *"however their development often relies on critical raw materials crms which pose sustainability and supply chain risks"* |
-
 ---
 
 ## 🗄️ Embedding & Vector Databases
 
-### Single Notebook — All Four Databases
+### Pre-built Vector Databases
 
-All four ChromaDB vector databases are built from a **single notebook**:
+> ✅ **The four ChromaDB vector databases have already been built and are available for download.**
+> Access the download link in [`Embedding Access.txt`](Embedding%20Access.txt), or use the included `embedding.zip` archive.
+> Extract the contents into `embedding/chroma_db/` before running the app — **no need to rebuild from scratch**.
+
+### Single Notebook — Build from Scratch (Optional)
+
+If you prefer to rebuild the databases yourself, all four ChromaDB instances can be generated from the chunking notebook:
 
 ```
-embedding/embedding.ipynb
+Chunking/Code/chunking.ipynb
 ```
-
-**Input:** `Dataset/Scopus dataset supply chain 2015 - 2025.xlsx`
 
 This notebook iterates over both embedding models and both chunk sizes, building each database sequentially:
 
@@ -265,7 +226,7 @@ Each ChromaDB instance stores:
 - **Embedding:** dense vector (768 or 1024 dimensions)
 - **Metadata:** `title`, `authors`, `year`, `journal`, `chunk_id`, `paper_id`
 
-> ⚠️ The `embedding/chroma_db/` directory is **excluded from Git** (`.gitignore`) due to large file sizes. Rebuild locally by running `embedding/embedding.ipynb`.
+> ⚠️ The `embedding/chroma_db/` directory is **excluded from Git** (`.gitignore`) due to large file sizes.
 
 ### Embedding Models
 
@@ -316,13 +277,6 @@ query_text
         )   → structured_html_response
 ```
 
-### `chunking/chunking.ipynb`
-
-Processes `cleaned_scopus_data.xlsx` and outputs:
-- `data_preprocessed_chunk_32.json` — tokenized chunks at size 32
-- `data_preprocessed_chunk_64.json` — tokenized chunks at size 64
-- `metadata_jurnal.json` — paper-level metadata for citation linking
-
 ### `static/js/` — Frontend Logic
 
 - Sends AJAX POST requests to Flask backend
@@ -349,7 +303,7 @@ Llama-3.1-8b-instant is chosen for its high inference speed on Groq's LPU hardwa
 |---|---|
 | **Python** | 3.12.4 |
 | **Groq API Key** | Free at [console.groq.com](https://console.groq.com) |
-| **Jupyter Notebook** | For running embedding & chunking pipelines |
+| **Jupyter Notebook** | For running the embedding pipeline (optional) |
 
 ### 1. Clone the Repository
 
@@ -372,36 +326,12 @@ Create `.env` in the project root:
 GROQ_API_KEY=your_groq_api_key_here
 ```
 
-### 4. Prepare the Dataset
+### 4. Prepare Vector Databases
 
-The raw dataset is already included in the repository at:
+**Option A — Use pre-built databases (recommended):**
 
-```
-Dataset/Scopus dataset supply chain 2015 - 2025.xlsx
-```
+Download the pre-built ChromaDB files from the link in `Embedding Access.txt`, or extract `embedding.zip` directly, then place into:
 
-If you want to re-run the cleaning pipeline, open and run:
-```bash
-jupyter notebook "Dataset/cleaning dataset v2.ipynb"
-```
-
-### 5. Run the Chunking Notebook
-
-```bash
-jupyter notebook chunking/chunking.ipynb
-```
-
-This produces the two JSON chunk files used as input for embedding.
-
-### 6. Build All Vector Databases
-
-Run the single embedding notebook — it will build all four ChromaDB databases:
-
-```bash
-jupyter notebook embedding/embedding.ipynb
-```
-
-Output structure after completion:
 ```
 embedding/chroma_db/
 ├── bge_m3/db_32/
@@ -410,7 +340,13 @@ embedding/chroma_db/
 └── labse/db_64/
 ```
 
-### 7. Launch the Application
+**Option B — Rebuild from scratch:**
+
+```bash
+jupyter notebook Chunking/Code/chunking.ipynb
+```
+
+### 5. Launch the Application
 
 ```bash
 python app.py
@@ -492,83 +428,20 @@ Every response follows a fixed three-part HTML structure:
 
 ## 🎯 System Prompt
 
-The following prompt is injected at the start of every LLM call, governing all response generation:
+The following rules are injected at the start of every LLM call, governing all response generation:
 
-```python
-system_prompt = """
-Role: You are the "SC-Literature Intelligence Assistant", an expert AI specialized
-in synthesizing scientific literature on Supply Chain and AI.
-
-CORE OBJECTIVE: Answer the user's question using ONLY the provided Context Data.
-
----
-### 🚨 1. LANGUAGE PROTOCOL (HIGHEST PRIORITY)
-You must strictly follow the language of the **User Query**, regardless of the
-language in the Context Data.
-
-* **CASE A: User asks in ENGLISH**
-  - OUTPUT: **100% English**.
-  - ACTION: Translate all findings from Indonesian context into English.
-
-* **CASE B: User asks in INDONESIAN**
-  - OUTPUT: **100% Indonesian**.
-  - ACTION: Translate all findings from English context into Indonesian.
-  - EXCEPTION: Keep technical terms (e.g., "Robustness", "RAG", "Bullwhip Effect")
-    in English.
-
----
-### ⛔ 2. STRICT FORMATTING RULES (CRITICAL)
-1. **NO MARKDOWN HEADERS:** Do NOT use `###`, `##`, or `**Title**`.
-2. **NO DUPLICATE TITLES:** Do NOT repeat "Direct Answer" or "Direct Summary".
-   Use ONLY the HTML tags provided below.
-3. **RAW HTML ONLY:** Your output must start directly with `<p>` and contain
-   valid HTML tags.
-4. **NEVER** mix languages. **NEVER** let the document language override the
-   query language.
-
----
-### 📝 3. REQUIRED HTML STRUCTURE
-
-**A. Direct Answer**
-   <p class="font-bold text-blue-700 mb-2 underline underline-offset-4
-      decoration-blue-200">Direct Summary:</p>
-   <p class="mb-4">Your direct answer here with <strong>key concepts</strong>
-      bolded.</p>
-
-**B. Critical Analysis**
-   <p class="font-bold text-slate-700 mb-1">Detailed Synthesis:</p>
-   <ul class="list-disc pl-4 space-y-2 mb-4">
-     <li>Point one explanation derived from context [1].</li>
-     <li>Point two explanation with citation [2].</li>
-   </ul>
-
-**C. Source Verification**
-   <p class="text-[11px] italic text-slate-500 bg-slate-50 p-2 rounded
-      border-l-2 border-blue-400">Analysis grounded in primary sources:
-      [authors, Year].</p>
-
----
-### ⛔ 4. STRICT CONSTRAINTS
-1. **No Outside Knowledge:** If the answer is not in the context, output:
-   "<p class='text-red-500 font-bold'>Information not available in the
-   provided documents.</p>"
-2. **Citation Rule:** Every single claim in Section B must have a citation
-   number [i].
-3. **Neutral Tone:** Maintain an objective, academic tone.
-4. **No Hallucinations:** If the answer cannot be found, honestly state it.
-"""
-```
-
-### Prompt Sensitivity Variants Tested
-
-| Variant | Description |
+| Rule | Description |
 |---|---|
-| **P1 — Generic Baseline** | Minimal instruction, open-ended output format |
-| **P2 — Strict Context-Based** | Hard constraint: answer ONLY from context, no outside knowledge |
-| **P3 — Structured Analysis** | Enforces three-section HTML structure, academic synthesis style |
-| **P4 — Evidence & Anti-Hallucination** | Adds explicit citation rules + hallucination refusal mechanism |
+| **Language Protocol** | Output language strictly follows the query language. English query → 100% English. Indonesian query → 100% Indonesian. Technical terms (e.g. "RAG", "Bullwhip Effect") remain in English regardless. |
+| **No Markdown Headers** | Do NOT use `###`, `##`, or `**Title**` formatting. Output must be raw HTML only. |
+| **No Duplicate Titles** | Do NOT repeat section titles. Use only the designated HTML class tags. |
+| **RAW HTML Only** | Response must start directly with `<p>` and use valid HTML tags throughout. |
+| **No Outside Knowledge** | Answer strictly from retrieved context. If not found, output a red-text "not available" message. |
+| **Citation Rule** | Every factual claim in the Detailed Synthesis section must include an inline citation `[i]`. |
+| **Neutral Tone** | Maintain objective, academic tone throughout. |
+| **No Hallucinations** | If an answer cannot be found in context, state it honestly rather than fabricating content. |
 
-> The production prompt combines the strongest elements of **P3 and P4**.
+
 
 ---
 
@@ -616,30 +489,7 @@ Threshold for acceptable performance per metric: **≥ 0.5**
 
 ---
 
-### Result 2 — Performance by Query Category
-
-| Category | Chunk | Top-K | Faithfulness | Answer Relevancy | Context Precision | Context Recall |
-|---|---|---|---|---|---|---|
-| Trend Analysis | 32 | 3 | 0.624 | 0.822 | 0.745 | 0.728 |
-| Gap Detection | 32 | 3 | 0.711 | 0.745 | 0.741 | 0.709 |
-| Comparative Synthesis | 32 | 3 | 0.651 | 0.770 | 0.681 | 0.507 |
-| Evidence-based QA | 32 | 3 | 0.658 | 0.635 | 0.575 | 0.680 |
-| Trend Analysis | 32 | 5 | 0.755 | 0.805 | 0.717 | 0.724 |
-| Gap Detection | 32 | 5 | 0.741 | 0.732 | 0.780 | 0.754 |
-| Comparative Synthesis | 32 | 5 | 0.597 | 0.838 | 0.727 | 0.590 |
-| Evidence-based QA | 32 | 5 | 0.654 | 0.782 | 0.566 | 0.749 |
-| Trend Analysis | 64 | 3 | 0.609 | 0.770 | 0.718 | 0.802 |
-| Gap Detection | 64 | 3 | 0.677 | 0.659 | 0.747 | 0.724 |
-| Comparative Synthesis | 64 | 3 | 0.647 | 0.835 | 0.750 | 0.590 |
-| Evidence-based QA | 64 | 3 | 0.643 | 0.599 | 0.593 | 0.698 |
-| Trend Analysis | 64 | 5 | 0.630 | 0.827 | 0.754 | 0.863 |
-| Gap Detection | 64 | 5 | 0.696 | 0.731 | 0.818 | 0.802 |
-| Comparative Synthesis | 64 | 5 | 0.638 | 0.790 | 0.768 | 0.674 |
-| Evidence-based QA | 64 | 5 | 0.720 | 0.646 | 0.594 | 0.732 |
-
----
-
-### Result 3 — BGE-M3 vs LaBSE per Query Category
+### Result 2 — BGE-M3 vs LaBSE per Query Category
 
 | Model | Category | Chunk | Top-K | Faithfulness | Answer Relevancy | Context Precision | Context Recall |
 |---|---|---|---|---|---|---|---|
@@ -673,8 +523,6 @@ Threshold for acceptable performance per metric: **≥ 0.5**
 
 ## 🐞 Failure Analysis
 
-All error classification results are stored in `error analysis/`. Errors are assigned using a deterministic rule-based system with a **threshold of 0.5** per RAGAS metric. The master dataset is `Hasil_Audit_RAG_Final_FIXED.xlsx`; individual error type files are filtered subsets.
-
 ### Error Classification Rules
 
 | # | Error Type | Stage | Trigger Condition |
@@ -689,126 +537,82 @@ All error classification results are stored in `error analysis/`. Errors are ass
 ### Error Frequency Results
 
 > Evaluated across **all 8 configurations** (2 embedding models × 2 chunk sizes × 2 Top-K values) over **80 test queries** per configuration = **640 total evaluated cases**.
-> Full data: [`error analysis/Hasil_Audit_RAG_Final_FIXED.xlsx`](error%20analysis/Hasil_Audit_RAG_Final_FIXED.xlsx)
 
-| Error Type | Stage | File | Cases | Percentage |
-|---|---|---|---|---|
-| Correct Answer | — | [`Correct Answer.xlsx`](error%20analysis/Correct%20Answer.xlsx) | 320 | 50.0% |
-| Hallucination | Generation | [`Hallucination.xlsx`](error%20analysis/Hallucination.xlsx) | 141 | 22.0% |
-| Incomplete Answer | Generation | [`Incomplete Answer.xlsx`](error%20analysis/Incomplete%20Answer.xlsx) | 96 | 15.0% |
-| Semantic Drift | Generation | [`Semantic Drift.xlsx`](error%20analysis/Semantic%20Drift.xlsx) | 46 | 7.2% |
-| Retrieval Failure | Retrieval | [`Retrieval Failure.xlsx`](error%20analysis/Retrieval%20Failure.xlsx) | 28 | 4.4% |
-| Context Noise | Retrieval | [`Context Noise.xlsx`](error%20analysis/Context%20Noise.xlsx) | 9 | 1.4% |
-| **Total** | | | **640** | **100%** |
+| Error Type | Stage | Cases |
+|---|---|---|
+| Correct Answer | — | 320 |
+| Hallucination | Generation | 141 |
+| Incomplete Answer | Generation | 96 |
+| Semantic Drift | Generation | 46 |
+| Retrieval Failure | Retrieval | 28 |
+| Context Noise | Retrieval | 9 |
+| **Total** | | **640** |
 
 ---
 
 ### Error Breakdown by Query Category
 
-The tables below present how each error type distributes across the four query categories, providing insight into which query types are most prone to each failure mode.
+#### Correct Answer (320 cases)
 
-#### Correct Answer (320 cases — 50.0%)
+| Query Category | Cases |
+|---|---|
+| Trend Analysis | 100 |
+| Comparative Synthesis | 75 |
+| Gap Detection | 74 |
+| Evidence-based QA | 71 |
+| **Total** | **320** |
 
-| Query Category | Cases | Percentage of Category |
-|---|---|---|
-| Trend Analysis | 100 | 31.3% |
-| Comparative Synthesis | 75 | 23.4% |
-| Gap Detection | 74 | 23.1% |
-| Evidence-based QA | 71 | 22.2% |
-| **Total** | **320** | **100%** |
+#### Hallucination (141 cases)
 
-> Trend Analysis queries yield the highest proportion of correct answers, indicating that temporal and evolutionary questions are well-matched to the corpus's coverage.
+| Query Category | Cases |
+|---|---|
+| Comparative Synthesis | 42 |
+| Trend Analysis | 35 |
+| Evidence-based QA | 33 |
+| Gap Detection | 31 |
+| **Total** | **141** |
 
-#### Hallucination (141 cases — 22.0%)
+#### Incomplete Answer (96 cases)
 
-| Query Category | Cases | Percentage of Category |
-|---|---|---|
-| Comparative Synthesis | 42 | 29.8% |
-| Trend Analysis | 35 | 24.8% |
-| Evidence-based QA | 33 | 23.4% |
-| Gap Detection | 31 | 22.0% |
-| **Total** | **141** | **100%** |
+| Query Category | Cases |
+|---|---|
+| Gap Detection | 35 |
+| Comparative Synthesis | 25 |
+| Evidence-based QA | 24 |
+| Trend Analysis | 12 |
+| **Total** | **96** |
 
-> Comparative Synthesis queries produce the most hallucinations, as comparing two or more AI frameworks across multiple dimensions requires cross-document synthesis that often pushes the model beyond what is explicitly stated in the retrieved chunks.
+#### Semantic Drift (46 cases)
 
-#### Incomplete Answer (96 cases — 15.0%)
+| Query Category | Cases |
+|---|---|
+| Evidence-based QA | 23 |
+| Gap Detection | 12 |
+| Trend Analysis | 7 |
+| Comparative Synthesis | 4 |
+| **Total** | **46** |
 
-| Query Category | Cases | Percentage of Category |
-|---|---|---|
-| Gap Detection | 35 | 36.5% |
-| Comparative Synthesis | 25 | 26.0% |
-| Evidence-based QA | 24 | 25.0% |
-| Trend Analysis | 12 | 12.5% |
-| **Total** | **96** | **100%** |
+#### Retrieval Failure (28 cases)
 
-> Gap Detection queries dominate incomplete answer cases. These queries inherently require the model to identify missing research dimensions — a multi-aspect task where answering one dimension (e.g., missing methods) while omitting another (e.g., missing geographic contexts) is classified as incomplete.
+| Query Category | Cases |
+|---|---|
+| Comparative Synthesis | 13 |
+| Gap Detection | 5 |
+| Evidence-based QA | 5 |
+| Trend Analysis | 5 |
+| **Total** | **28** |
 
-#### Semantic Drift (46 cases — 7.2%)
+#### Context Noise (9 cases)
 
-| Query Category | Cases | Percentage of Category |
-|---|---|---|
-| Evidence-based QA | 23 | 50.0% |
-| Gap Detection | 12 | 26.1% |
-| Trend Analysis | 7 | 15.2% |
-| Comparative Synthesis | 4 | 8.7% |
-| **Total** | **46** | **100%** |
+| Query Category | Cases |
+|---|---|
+| Evidence-based QA | 4 |
+| Gap Detection | 3 |
+| Comparative Synthesis | 1 |
+| Trend Analysis | 1 |
+| **Total** | **9** |
 
-> Evidence-based QA queries account for half of all Semantic Drift cases. This occurs when the model provides a factually grounded answer that is adjacent to the requested empirical metric (e.g., answering "which models are used" instead of "what accuracy levels are reported"), indicating that the query intent is correctly retrieved but imprecisely answered.
 
-#### Retrieval Failure (28 cases — 4.4%)
-
-| Query Category | Cases | Percentage of Category |
-|---|---|---|
-| Comparative Synthesis | 13 | 46.4% |
-| Gap Detection | 5 | 17.9% |
-| Evidence-based QA | 5 | 17.9% |
-| Trend Analysis | 5 | 17.9% |
-| **Total** | **28** | **100%** |
-
-> Comparative Synthesis queries are disproportionately affected by retrieval failure, accounting for nearly half of all cases. Comparison queries often use abstract terminology (e.g., "centralized vs decentralized AI architectures") that does not closely match the vocabulary of individual paper abstracts, resulting in poor embedding-to-query alignment.
-
-#### Context Noise (9 cases — 1.4%)
-
-| Query Category | Cases | Percentage of Category |
-|---|---|---|
-| Evidence-based QA | 4 | 44.4% |
-| Gap Detection | 3 | 33.3% |
-| Comparative Synthesis | 1 | 11.1% |
-| Trend Analysis | 1 | 11.1% |
-| **Total** | **9** | **100%** |
-
-> Context Noise is the least frequent error type overall, occurring in only 9 of 640 cases. Its concentration in Evidence-based QA queries reflects situations where the retrieval mechanism successfully recovers some relevant chunks but also surfaces thematically adjacent documents that dilute the precision of the provided context.
-
----
-
-### Summary of Error Patterns
-
-| Error Type | Stage | Most Affected Category | Key Cause |
-|---|---|---|---|
-| Correct Answer | — | Trend Analysis (31.3%) | Good temporal coverage in corpus |
-| Hallucination | Generation | Comparative Synthesis (29.8%) | Cross-document synthesis exceeds retrieved span |
-| Incomplete Answer | Generation | Gap Detection (36.5%) | Multi-dimensional queries partially addressed |
-| Semantic Drift | Generation | Evidence-based QA (50.0%) | Adjacent answer retrieved; query intent imprecise |
-| Retrieval Failure | Retrieval | Comparative Synthesis (46.4%) | Abstract comparative vocabulary misaligns with embeddings |
-| Context Noise | Retrieval | Evidence-based QA (44.4%) | Relevant chunks mixed with thematically adjacent documents |
-
-### Error Sub-Type Taxonomy
-
-| Error Type | Sub-Category | Metric Pattern | Interpretation |
-|---|---|---|---|
-| **Retrieval Failure** | Hard Retrieval Miss | Precision ≤ 0.5, Recall ≤ 0.5 | Core concept absent or embedding–query alignment failure |
-| **Retrieval Failure** | Partial Recall Loss | Precision > 0.5, Recall ≤ 0.5 | Partially found; Top-K too small or chunk too fine-grained |
-| **Context Noise** | Dominant Noise | Precision ≤ 0.5, Recall ≥ 0.5 | Relevant evidence diluted by off-topic chunks |
-| **Context Noise** | Mixed Context | Precision moderate, Recall high | Selective grounding despite noisy context |
-| **Hallucination** | Abstractive Deviation | Faithfulness ≤ 0.5, Relevance ≥ 0.5 | Coherent synthesis that extends beyond retrieved spans |
-| **Hallucination** | Unsupported Generation | Faithfulness ≤ 0.5, context weak | Model infers from parametric knowledge due to poor retrieval |
-| **Hallucination** | True Hallucination | All metrics ≤ 0.5 | No factual grounding AND no semantic alignment |
-| **Semantic Drift** | Intent Drift | Faithfulness ≥ 0.5, Relevance ≤ 0.5 | Well-grounded but diverges from specific query intent |
-| **Semantic Drift** | Scope Drift | Faithfulness high, Relevance moderate | Accurate but at broader analytical scope than requested |
-| **Incomplete Answer** | Partial Coverage | Faithfulness ≥ 0.5, Relevance moderate | Core aspects answered; secondary dimensions omitted |
-| **Incomplete Answer** | Dimension Omission | Faithfulness high, Recall high | Strong grounding but not all required dimensions articulated |
-
----
 
 ## 📦 Dependencies
 
@@ -823,7 +627,7 @@ langchain
 langchain-community
 pandas
 numpy
-openpyxl                     # xlsx read/write
+openpyxl
 python-dotenv
 gunicorn
 jupyter
